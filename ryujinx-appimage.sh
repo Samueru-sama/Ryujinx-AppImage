@@ -55,6 +55,10 @@ chmod a+x ./appimagetool
 ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP.AppDir && 
 ls ./*.AppImage || { echo "appimagetool failed to make the appimage"; exit 1; }
 
+VERSION=$(echo $version | awk -F / '{print $(NF-1)}')
+NAME=$(ls *AppImage)
+mv ./*AppImage ./"$VERSION"-"$NAME"
+
 # Clean up
 if [ -z "$APP" ]; then exit 1; fi # Being extra safe lol
 rm -rf "./$APP.AppDir"
