@@ -1,19 +1,17 @@
 #!/bin/sh
-
+set -u
 APP=ryujinx
 SITE="Ryujinx/release-channel-master"
 
 # CREATE DIRECTORIES
-if [ -z "$APP" ]; then exit 1; fi
-mkdir -p "./$APP/tmp" && cd "./$APP/tmp"
+[ -n "$APP" ] && mkdir -p "./$APP/tmp" && cd "./$APP/tmp" || exit 1
 
 # DOWNLOAD AND EXTRACT THE ARCHIVE
-version=$(wget -q https://api.github.com/repos/$SITE/releases -O - | grep browser_download_url | grep -i linux_x64.tar.gz | cut -d '"' -f 4 | head -1)
-wget "$version"
-tar fx ./*tar* || exit 1
+version=$(wget -q https://api.github.com/repos/$SITE/releases -O - | sed 's/[()",{} ]/\n/g' | grep -oi "https.*linux.*x64.*gz$" | head -1)
+wget "$version" && tar fx ./*tar* || exit 1
 cd ..
 mkdir -p "./$APP.AppDir/usr/bin"
-mv --backup=t ./tmp/*/* "./$APP.AppDir/usr/bin"
+mv ./tmp/*/* "./$APP.AppDir/usr/bin"
 cd "./$APP.AppDir" || exit 1
 
 # DESKTOP ENTRY AND ICON
@@ -31,17 +29,12 @@ chmod a+x ./AppRun
 
 # MAKE APPIMAGE
 cd ..
-APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/"/ /g; s/ /\n/g' | grep -o 'https.*continuous.*tool.*86_64.*mage$')
+APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*86_64.*mage$')
 wget -q "$APPIMAGETOOL" -O ./appimagetool
 chmod a+x ./appimagetool
 
 # Do the thing!
-ARCH=x86_64 VERSION=$(./appimagetool -v | grep -o '[[:digit:]]*') ./appimagetool -s ./$APP.AppDir && 
-ls ./*.AppImage || { echo "appimagetool failed to make the appimage"; exit 1; }
-
-APPVERSION=$(echo $version | awk -F / '{print $(NF-1)}')
-APPNAME=$(ls *AppImage)
-mv ./*AppImage ./"$APPVERSION"-"$APPNAME"
-if [ -z "$APP" ]; then exit 1; fi # Being extra safe lol
-mv ./*.AppImage .. && cd .. && rm -rf "./$APP"
+ARCH=x86_64 
+VERSION="$(echo "$version" | awk -F"/" '{print $(NF-1)}')" ./appimagetool -s ./"$APP".AppDir
+[ -n "$APP" ] && mv ./*.AppImage .. && cd .. && rm -rf ./"$APP" || exit 1
 echo "All Done!"
