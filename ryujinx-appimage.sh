@@ -16,7 +16,7 @@ cd "./$APP.AppDir" || exit 1
 
 # DESKTOP ENTRY AND ICON
 DESKTOP="https://raw.githubusercontent.com/Ryujinx/Ryujinx/master/distribution/linux/Ryujinx.desktop"
-ICON="https://raw.githubusercontent.com/Ryujinx/Ryujinx/master/src/Ryujinx/Ryujinx.ico -O ./Ryujinx.png"
+ICON="https://raw.githubusercontent.com/Ryujinx/Ryujinx/master/src/Ryujinx/Ryujinx.ico"
 wget $DESKTOP -O ./$APP.desktop && wget $ICON -O ./Ryujinx.png && ln -s ./Ryujinx.png ./.DirIcon
 
 # AppRun
