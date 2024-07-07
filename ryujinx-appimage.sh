@@ -29,7 +29,7 @@ chmod a+x ./AppRun
 
 # MAKE APPIMAGE
 cd ..
-APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*86_64.*mage$')
+APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*x86_64.*mage$' | head -1)
 wget -q "$APPIMAGETOOL" -O ./appimagetool
 chmod a+x ./appimagetool
 
