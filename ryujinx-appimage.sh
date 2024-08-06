@@ -29,12 +29,13 @@ chmod a+x ./AppRun
 
 # MAKE APPIMAGE
 cd ..
-APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/[()",{} ]/\n/g' | grep -oi 'https.*continuous.*tool.*x86_64.*mage$' | head -1)
+APPIMAGETOOL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
 wget -q "$APPIMAGETOOL" -O ./appimagetool
 chmod a+x ./appimagetool
 
 # Do the thing!
-ARCH=x86_64 
-VERSION="$(echo "$version" | awk -F"/" '{print $(NF-1)}')" ./appimagetool -s ./"$APP".AppDir
+export VERSION="$(echo "$version" | awk -F"/" '{print $(NF-1)}')"
+export ARCH=x86_64
+./appimagetool --comp zstd --mksquashfs-opt -Xcompression-level --mksquashfs-opt 20 ./$APP.AppDir Ryujinx-"$VERSION"-"$ARCH".AppImage
 [ -n "$APP" ] && mv ./*.AppImage .. && cd .. && rm -rf ./"$APP" || exit 1
 echo "All Done!"
