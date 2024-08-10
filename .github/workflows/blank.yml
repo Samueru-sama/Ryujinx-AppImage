@@ -22,7 +22,7 @@ jobs:
         chmod a+x ./ryujinx-appimage.sh
         ./ryujinx-appimage.sh
         mkdir dist
-        mv *AppImage dist/
+        mv *AppImage* dist/
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
