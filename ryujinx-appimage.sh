@@ -1,7 +1,7 @@
 #!/bin/sh
 set -u
 APP=ryujinx
-SITE="Ryujinx/release-channel-master"
+SITE="getBoolean/release-channel-master"
 
 # CREATE DIRECTORIES
 [ -n "$APP" ] && mkdir -p "./$APP/tmp" && cd "./$APP/tmp" || exit 1
@@ -15,8 +15,8 @@ mv ./tmp/*/* "./$APP.AppDir/usr/bin"
 cd "./$APP.AppDir" || exit 1
 
 # DESKTOP ENTRY AND ICON
-DESKTOP="https://raw.githubusercontent.com/Ryujinx/Ryujinx/master/distribution/linux/Ryujinx.desktop"
-ICON="https://raw.githubusercontent.com/Ryujinx/Ryujinx/master/src/Ryujinx/Ryujinx.ico"
+DESKTOP="https://raw.githubusercontent.com/emmauss/Ryujinx/a2c003501371463fd1f98d2e5a7602ae19c21d7c/distribution/linux/Ryujinx.desktop"
+ICON="https://raw.githubusercontent.com/emmauss/Ryujinx/a2c003501371463fd1f98d2e5a7602ae19c21d7c/src/Ryujinx/Ryujinx.ico"
 wget $DESKTOP -O ./$APP.desktop && wget $ICON -O ./Ryujinx.png && ln -s Ryujinx.png ./.DirIcon
 
 # AppRun
