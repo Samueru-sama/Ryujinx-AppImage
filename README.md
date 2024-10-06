@@ -1,3 +1,15 @@
+# GO TO THIS REPO IF YOU WANT UP TO DATE APPIMAGES: 
+
+# https://github.com/ryujinx-mirror/ryujinx
+
+This repo used to make appimages from the portable linux binaires that ryujinx released since they never released an appimage, but now there is a better alternative.
+
+--------------------------------------------------------------------------------
+
+
+
+
+
 # Ryujinx-AppImage
 Unofficial AppImage of the Ryujinx emulator: https://github.com/Ryujinx/Ryujinx
 
